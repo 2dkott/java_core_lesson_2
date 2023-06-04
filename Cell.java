@@ -13,7 +13,11 @@ public class Cell {
         return value.equals(CellValue.EMPTY);
     }
 
-    public String getValue() {
+    public CellValue getValue() {
+        return value;
+    }
+
+    public String getStringValue() {
         return value.getValue();
     }
 
@@ -23,5 +27,10 @@ public class Cell {
 
     public int getY() {
         return y;
+    }
+
+    @Override
+    public String toString(){
+        return value.getValue();
     }
 }
