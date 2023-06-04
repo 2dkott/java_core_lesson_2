@@ -17,7 +17,6 @@ public class GameMain {
         gameField = new Cell[size][size];
         for (int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
-                //gameField[i][j]=new Cell(String.format("%s%s", i+1, j+1), i, j);
                 gameField[i][j]=new Cell(CellValue.EMPTY, j, i);
             }
         }
@@ -43,9 +42,9 @@ public class GameMain {
         while (true) {
             try {
                 System.out.print("Введите координату по горизонтали:\n");
-                x = checkInput();
+                x = checkCoordinateInput();
                 System.out.print("Введите координату по вертикали:\n");
-                y = checkInput();
+                y = checkCoordinateInput();
                 if(isEmpty(x-1, y-1)) {
                     putSign(x-1, y-1, playerSing);
                     break;
@@ -56,9 +55,26 @@ public class GameMain {
         }
     }
 
-    private static int checkInput() throws WrongValueException {
-        try {
+    private static void defineSign(){
+        while (true) {
+            System.out.print("Выбирите знак, x(анг)(крестик) или 0(нолик):\n");
+            String value = scanner.next();
+            if (value.equals(CellValue.ZERO.getValue())) {
+                playerSing = CellValue.ZERO;
+                mySing = CellValue.CROSS;
+                break;
+            } else if (value.equals(CellValue.CROSS.getValue())) {
+                playerSing = CellValue.CROSS;
+                mySing = CellValue.ZERO;
+                break;
+            } else {
+                System.out.println("Вы ввели ни крестик ни нолилк!");
+            }
+        }
+    }
 
+    private static int checkCoordinateInput() throws WrongValueException {
+        try {
             int value = Integer.parseInt(scanner.next());
             if (value > gameField.length || value < 1) {
                 throw new WrongValueException();
@@ -184,6 +200,8 @@ public class GameMain {
     }
 
     private static void start(){
+        defineSign();
+
         while (true){
 
             getHumanTurn();
